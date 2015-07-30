@@ -23637,9 +23637,9 @@
 	  mixins: [Router.State],
 	  getInitialState: function getInitialState() {
 	    return {
-	      notes: [],
-	      bio: {},
-	      repos: []
+	      notes: ["Hey"],
+	      bio: { name: 'Human' },
+	      repos: [1, 2, 3]
 	    };
 	  },
 	  render: function render() {
@@ -23650,17 +23650,17 @@
 	      React.createElement(
 	        'div',
 	        { className: "col-md-4" },
-	        React.createElement(UserProfile, null)
+	        React.createElement(UserProfile, { username: username, bio: this.state.bio })
 	      ),
 	      React.createElement(
 	        'div',
 	        { className: "col-md-4" },
-	        React.createElement(Repos, null)
+	        React.createElement(Repos, { username: username, repos: this.state.repos })
 	      ),
 	      React.createElement(
 	        'div',
 	        { className: "col-md-4" },
-	        React.createElement(Notes, null)
+	        React.createElement(Notes, { username: username, notes: this.state.notes })
 	      )
 	    );
 	  }
@@ -23683,7 +23683,14 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'USER PROFILE'
+	      'User Profile ',
+	      React.createElement('br', null),
+	      'Username: ',
+	      this.props.username,
+	      ' ',
+	      React.createElement('br', null),
+	      'Bio: ',
+	      this.props.bio
 	    );
 	  }
 	});
@@ -23705,7 +23712,14 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'REPOS'
+	      'Repos ',
+	      React.createElement('br', null),
+	      'Username: ',
+	      this.props.username,
+	      ' ',
+	      React.createElement('br', null),
+	      'Repos: ',
+	      this.props.repos
 	    );
 	  }
 	});
@@ -23727,7 +23741,14 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'NOTES'
+	      'User Profile ',
+	      React.createElement('br', null),
+	      'Username: ',
+	      this.props.username,
+	      ' ',
+	      React.createElement('br', null),
+	      'Notes: ',
+	      this.props.notes
 	    );
 	  }
 	});

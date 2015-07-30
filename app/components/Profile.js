@@ -8,9 +8,9 @@ var Profile = React.createClass({
   mixins: [Router.State],
   getInitialState: function () {
     return {
-      notes: [],
-      bio: {},
-      repos: []
+      notes: ["Hey"],
+      bio: {name: 'Human'},
+      repos: [1,2,3]
     }
   },
   render: function () {
@@ -18,13 +18,13 @@ var Profile = React.createClass({
     return (
       <div className="row">
         <div className="col-md-4">
-          <UserProfile />
+          <UserProfile username={username} bio={this.state.bio}/>
         </div>
         <div className="col-md-4">
-          <Repos />
+          <Repos username={username} repos={this.state.repos}/>
         </div>
         <div className="col-md-4">
-          <Notes />
+          <Notes username={username} notes={this.state.notes}/>
         </div>
       </div>
     )
