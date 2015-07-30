@@ -1,5 +1,8 @@
 var React = require('react');
 var Router = require('react-router');
+var UserProfile = require('./GitHub/UserProfile');
+var Repos = require('./GitHub/Repos');
+var Notes = require('./Notes/Notes');
 
 var Profile = React.createClass({
   mixins: [Router.State],
@@ -15,13 +18,13 @@ var Profile = React.createClass({
     return (
       <div className="row">
         <div className="col-md-4">
-          User Profile {username}
+          <UserProfile />
         </div>
         <div className="col-md-4">
-          Repos
+          <Repos />
         </div>
         <div className="col-md-4">
-          Notes
+          <Notes />
         </div>
       </div>
     )
