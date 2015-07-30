@@ -23553,7 +23553,11 @@
 	var DefaultRoute = Router.DefaultRoute;
 	var Route = Router.Route;
 
-	module.exports = React.createElement(Route, { name: "app", path: "/", handler: Main });
+	module.exports = React.createElement(
+	  Route,
+	  { name: "app", path: "/", handler: Main },
+	  React.createElement(DefaultRoute, { handler: Home })
+	);
 
 /***/ },
 /* 197 */
@@ -23562,6 +23566,7 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var RouteHandler = __webpack_require__(157).RouteHandler;
 
 	var Main = React.createClass({
 	  displayName: 'Main',
@@ -23569,8 +23574,21 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
-	      'Hello World'
+	      { className: "main-container" },
+	      React.createElement(
+	        'nav',
+	        { className: "navbar navbar-default", role: "navigation" },
+	        React.createElement(
+	          'div',
+	          { className: "col-sm-7 col-sm-offset-2", style: { marginTop: 15 } },
+	          'MENU'
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: "container" },
+	        React.createElement(RouteHandler, null)
+	      )
 	    );
 	  }
 	});
@@ -23596,6 +23614,8 @@
 	    );
 	  }
 	});
+
+	module.exports = Home;
 
 /***/ }
 /******/ ]);
