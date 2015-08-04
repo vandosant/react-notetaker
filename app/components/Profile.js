@@ -3,15 +3,25 @@ var Router = require('react-router');
 var UserProfile = require('./GitHub/UserProfile');
 var Repos = require('./GitHub/Repos');
 var Notes = require('./Notes/Notes');
+var ReactFireMixin = require('reactfire');
+var Firebase = require('firebase');
 
 var Profile = React.createClass({
-  mixins: [Router.State],
+  mixins: [Router.State, ReactFireMixin],
   getInitialState: function () {
     return {
       notes: ["Hey"],
       bio: {name: 'Human'},
       repos: [1,2,3]
     }
+  },
+  componentDidMount: function () {
+    this.ref = new Firebase('https://blazing-torch-1079.firebaseio.com');
+    var child = this.ref.child(this.getParams().username);
+    this.bindAsArray(child, 'notes');
+  },
+  componentWillUnmount: function () {
+    this.unbind('notes');
   },
   render: function () {
     var username = this.getParams().username;
