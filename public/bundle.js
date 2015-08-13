@@ -23752,6 +23752,10 @@
 	var Notes = React.createClass({
 	  displayName: 'Notes',
 
+	  propTypes: {
+	    username: React.PropTypes.string.isRequired,
+	    notes: React.PropTypes.array.isRequired
+	  },
 	  render: function render() {
 	    return React.createElement(
 	      'div',
