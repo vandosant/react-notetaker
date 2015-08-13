@@ -10,18 +10,21 @@ var Profile = React.createClass({
   mixins: [Router.State, ReactFireMixin],
   getInitialState: function () {
     return {
-      notes: ["Hey"],
-      bio: {name: 'Human'},
-      repos: [1,2,3]
+      notes: [],
+      bio: {},
+      repos: []
     }
   },
   componentDidMount: function () {
-    this.ref = new Firebase('https://blazing-torch-1079.firebaseio.com');
+    this.ref = new Firebase('https://react-notetaker12786.firebaseIO.com');
     var child = this.ref.child(this.getParams().username);
     this.bindAsArray(child, 'notes');
   },
   componentWillUnmount: function () {
     this.unbind('notes');
+  },
+  handleAddNote: function (newNote) {
+    this.ref.child(this.getParams().username).set(this.state.notes.concat([newNote]));
   },
   render: function () {
     var username = this.getParams().username;
@@ -34,7 +37,7 @@ var Profile = React.createClass({
           <Repos username={username} repos={this.state.repos}/>
         </div>
         <div className="col-md-4">
-          <Notes username={username} notes={this.state.notes}/>
+          <Notes username={username} notes={this.state.notes} addNote={this.handleAddNote}/>
         </div>
       </div>
     )
