@@ -15,7 +15,7 @@ var Profile = React.createClass({
       repos: []
     }
   },
-  componentDidMount: function () {
+  componentWillMount: function () {
     this.ref = new Firebase('https://react-notetaker12786.firebaseIO.com');
     var child = this.ref.child(this.getParams().username);
     this.bindAsArray(child, 'notes');
