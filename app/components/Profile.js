@@ -5,6 +5,7 @@ var Repos = require('./GitHub/Repos');
 var Notes = require('./Notes/Notes');
 var ReactFireMixin = require('reactfire');
 var Firebase = require('firebase');
+var helpers = require('../utils/helpers');
 
 var Profile = React.createClass({
   mixins: [Router.State, ReactFireMixin],
@@ -15,10 +16,18 @@ var Profile = React.createClass({
       repos: []
     }
   },
-  componentWillMount: function () {
+  componentDidMount: function () {
     this.ref = new Firebase('https://react-notetaker12786.firebaseIO.com');
     var child = this.ref.child(this.getParams().username);
     this.bindAsArray(child, 'notes');
+
+    helpers.getUserData(this.getParams().username)
+      .then(function (userData) {
+        this.setState({
+          bio: userData.bio,
+          repos: userData.repos
+        })
+      }.bind(this));
   },
   componentWillUnmount: function () {
     this.unbind('notes');

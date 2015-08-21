@@ -9,13 +9,12 @@ function getGithubUser(username) {
 }
 
 var helpers = {
-  getUserData: function () {
-    return axios.all([getGithubRepos, getGithubUser])
+  getUserData: function (username) {
+    return axios.all([getGithubRepos(username), getGithubUser(username)])
       .then(function (dataArray) {
-        console.log(dataArray);
         return {
           repos: dataArray[0].data,
-
+          bio: dataArray[1].data
         }
       });
   }
