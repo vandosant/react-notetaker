@@ -23700,7 +23700,7 @@
 	    this.unbind('notes');
 	  },
 	  handleAddNote: function handleAddNote(newNote) {
-	    this.ref.child(this.getParams().username).set(this.state.notes.concat([newNote]));
+	    this.ref.child(this.getParams().username).push(newNote);
 	  },
 	  render: function render() {
 	    var username = this.getParams().username;
