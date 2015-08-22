@@ -23918,7 +23918,11 @@
 	          "li",
 	          { className: "list-group-item" },
 	          "Website: ",
-	          this.props.bio.blog
+	          React.createElement(
+	            "a",
+	            { href: this.props.bio.blog },
+	            this.props.bio.blog
+	          )
 	        )
 	      )
 	    );

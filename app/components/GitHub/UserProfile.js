@@ -14,7 +14,7 @@ var UserProfile = React.createClass({
           {this.props.bio.followers && <li className="list-group-item">Followers: {this.props.bio.followers}</li>}
           {this.props.bio.following && <li className="list-group-item">Following: {this.props.bio.following}</li>}
           {this.props.bio.repos && <li className="list-group-item">Repos: {this.props.bio.repos}</li>}
-          {this.props.bio.blog && <li className="list-group-item">Website: {this.props.bio.blog}</li>}
+          {this.props.bio.blog && <li className="list-group-item">Website: <a href={this.props.bio.blog}>{this.props.bio.blog}</a></li>}
         </ul>
       </div>
     )
