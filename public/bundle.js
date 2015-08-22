@@ -23718,7 +23718,7 @@
 	      React.createElement(
 	        'div',
 	        { className: "col-md-4" },
-	        React.createElement(UserProfile, { username: username, bio: this.state.bio })
+	        React.createElement(UserProfile, { bio: this.state.bio })
 	      ),
 	      React.createElement(
 	        'div',
@@ -23848,25 +23848,71 @@
 /* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var React = __webpack_require__(1);
 
 	var UserProfile = React.createClass({
-	  displayName: 'UserProfile',
+	  displayName: "UserProfile",
 
 	  render: function render() {
 	    return React.createElement(
-	      'div',
+	      "div",
 	      null,
-	      'User Profile ',
-	      React.createElement('br', null),
-	      'Username: ',
-	      this.props.username,
-	      ' ',
-	      React.createElement('br', null),
-	      'Bio: ',
-	      this.props.bio
+	      React.createElement(
+	        "h3",
+	        null,
+	        "User Profile "
+	      ),
+	      React.createElement(
+	        "ul",
+	        { className: "list-group" },
+	        this.props.bio.avatar_url && React.createElement(
+	          "li",
+	          { className: "list-group-item" },
+	          React.createElement("img", { className: "img-thumbnail", src: this.props.bio.avatar_url })
+	        ),
+	        this.props.bio.name && React.createElement(
+	          "li",
+	          { className: "list-group-item" },
+	          this.props.bio.name
+	        ),
+	        this.props.bio.login && React.createElement(
+	          "li",
+	          { className: "list-group-item" },
+	          this.props.bio.login
+	        ),
+	        this.props.bio.email && React.createElement(
+	          "li",
+	          { className: "list-group-item" },
+	          this.props.bio.email
+	        ),
+	        this.props.bio.location && React.createElement(
+	          "li",
+	          { className: "list-group-item" },
+	          this.props.bio.location
+	        ),
+	        this.props.bio.followers && React.createElement(
+	          "li",
+	          { className: "list-group-item" },
+	          this.props.bio.followers
+	        ),
+	        this.props.bio.following && React.createElement(
+	          "li",
+	          { className: "list-group-item" },
+	          this.props.bio.following
+	        ),
+	        this.props.bio.repos && React.createElement(
+	          "li",
+	          { className: "list-group-item" },
+	          this.props.bio.repos
+	        ),
+	        this.props.bio.blog && React.createElement(
+	          "li",
+	          { className: "list-group-item" },
+	          this.props.bio.blog
+	        )
+	      )
 	    );
 	  }
 	});
