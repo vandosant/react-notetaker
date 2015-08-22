@@ -23877,29 +23877,52 @@
 /* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var React = __webpack_require__(1);
 
 	var Repos = React.createClass({
-	  displayName: 'Repos',
+	  displayName: "Repos",
 
 	  propTypes: {
 	    username: React.PropTypes.string.isRequired,
 	    repos: React.PropTypes.array.isRequired
 	  },
 	  render: function render() {
+	    var repos = this.props.repos.map(function (repo, index) {
+	      return React.createElement(
+	        "li",
+	        { className: "list-group-item", key: index },
+	        repo.html_url && React.createElement(
+	          "h4",
+	          null,
+	          React.createElement(
+	            "a",
+	            { href: repo.html_url },
+	            repo.name
+	          )
+	        ),
+	        repo.description && React.createElement(
+	          "p",
+	          null,
+	          repo.description
+	        )
+	      );
+	    });
 	    return React.createElement(
-	      'div',
+	      "div",
 	      null,
-	      'Repos ',
-	      React.createElement('br', null),
-	      'Username: ',
-	      this.props.username,
-	      ' ',
-	      React.createElement('br', null),
-	      'Repos: ',
-	      this.props.repos
+	      React.createElement(
+	        "h4",
+	        null,
+	        this.props.username,
+	        " Repos "
+	      ),
+	      React.createElement(
+	        "ul",
+	        { className: "list-group" },
+	        repos
+	      )
 	    );
 	  }
 	});
