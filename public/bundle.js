@@ -23875,41 +23875,49 @@
 	        this.props.bio.name && React.createElement(
 	          "li",
 	          { className: "list-group-item" },
+	          "Name: ",
 	          this.props.bio.name
 	        ),
 	        this.props.bio.login && React.createElement(
 	          "li",
 	          { className: "list-group-item" },
+	          "Username: ",
 	          this.props.bio.login
 	        ),
 	        this.props.bio.email && React.createElement(
 	          "li",
 	          { className: "list-group-item" },
+	          "Email: ",
 	          this.props.bio.email
 	        ),
 	        this.props.bio.location && React.createElement(
 	          "li",
 	          { className: "list-group-item" },
+	          "Location: ",
 	          this.props.bio.location
 	        ),
 	        this.props.bio.followers && React.createElement(
 	          "li",
 	          { className: "list-group-item" },
+	          "Followers: ",
 	          this.props.bio.followers
 	        ),
 	        this.props.bio.following && React.createElement(
 	          "li",
 	          { className: "list-group-item" },
+	          "Following: ",
 	          this.props.bio.following
 	        ),
 	        this.props.bio.repos && React.createElement(
 	          "li",
 	          { className: "list-group-item" },
+	          "Repos: ",
 	          this.props.bio.repos
 	        ),
 	        this.props.bio.blog && React.createElement(
 	          "li",
 	          { className: "list-group-item" },
+	          "Website: ",
 	          this.props.bio.blog
 	        )
 	      )
