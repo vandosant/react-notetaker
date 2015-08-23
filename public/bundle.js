@@ -23692,8 +23692,7 @@
 	      repos: []
 	    };
 	  },
-	  componentDidMount: function componentDidMount() {
-	    this.ref = new Firebase('https://react-notetaker12786.firebaseIO.com');
+	  init: function init() {
 	    var child = this.ref.child(this.getParams().username);
 	    this.bindAsArray(child, 'notes');
 
@@ -23704,8 +23703,16 @@
 	      });
 	    }).bind(this));
 	  },
+	  componentDidMount: function componentDidMount() {
+	    this.ref = new Firebase('https://react-notetaker12786.firebaseIO.com');
+	    this.init();
+	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.unbind('notes');
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps() {
+	    this.unbind('notes');
+	    this.init();
 	  },
 	  handleAddNote: function handleAddNote(newNote) {
 	    this.ref.child(this.getParams().username).push(newNote);
