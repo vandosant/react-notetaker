@@ -1,6 +1,3 @@
-var React = require('react');
-var RouteHandler = require('react-router').RouteHandler;
-var SearchGithub = require('./SearchGithub');
 import React from 'react';
 import { RouteHandler } from 'react-router';
 import SearchGithub from './SearchGithub';
