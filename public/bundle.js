@@ -23796,21 +23796,29 @@
 	  value: true
 	});
 
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _GitHubUserProfile = __webpack_require__(204);
+	var _GitHubUserProfile = __webpack_require__(201);
 
 	var _GitHubUserProfile2 = _interopRequireDefault(_GitHubUserProfile);
 
-	var _GitHubRepos = __webpack_require__(205);
+	var _GitHubRepos = __webpack_require__(202);
 
 	var _GitHubRepos2 = _interopRequireDefault(_GitHubRepos);
 
-	var _NotesNotes = __webpack_require__(201);
+	var _NotesNotes = __webpack_require__(203);
 
 	var _NotesNotes2 = _interopRequireDefault(_NotesNotes);
 
@@ -23822,276 +23830,104 @@
 
 	var _utilsHelpers2 = _interopRequireDefault(_utilsHelpers);
 
-	var Router = __webpack_require__(157);
-	var ReactFireMixin = __webpack_require__(227);
+	var _reBase = __webpack_require__(227);
 
-	var Profile = _react2['default'].createClass({
-	  displayName: 'Profile',
+	var _reBase2 = _interopRequireDefault(_reBase);
 
-	  mixins: [Router.State, ReactFireMixin],
-	  getInitialState: function getInitialState() {
-	    return {
+	var base = _reBase2['default'].createClass('https://react-notetaker12786.firebaseio.com');
+
+	var Profile = (function (_React$Component) {
+	  _inherits(Profile, _React$Component);
+
+	  function Profile(props) {
+	    _classCallCheck(this, Profile);
+
+	    _get(Object.getPrototypeOf(Profile.prototype), 'constructor', this).call(this, props);
+	    this.state = {
 	      notes: [],
 	      bio: {},
 	      repos: []
 	    };
-	  },
-	  init: function init() {
-	    var child = this.ref.child(this.getParams().username);
-	    this.bindAsArray(child, 'notes');
-
-	    _utilsHelpers2['default'].getUserData(this.getParams().username).then((function (userData) {
-	      this.setState({
-	        bio: userData.bio,
-	        repos: userData.repos
-	      });
-	    }).bind(this));
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.ref = new _firebase2['default']('https://react-notetaker12786.firebaseIO.com');
-	    this.init();
-	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.unbind('notes');
-	  },
-	  componentWillReceiveProps: function componentWillReceiveProps() {
-	    this.unbind('notes');
-	    this.init();
-	  },
-	  handleAddNote: function handleAddNote(newNote) {
-	    this.ref.child(this.getParams().username).push(newNote);
-	  },
-	  render: function render() {
-	    var username = this.getParams().username;
-	    return _react2['default'].createElement(
-	      'div',
-	      { className: "row" },
-	      _react2['default'].createElement(
-	        'div',
-	        { className: "col-md-4" },
-	        _react2['default'].createElement(_GitHubUserProfile2['default'], { bio: this.state.bio })
-	      ),
-	      _react2['default'].createElement(
-	        'div',
-	        { className: "col-md-4" },
-	        _react2['default'].createElement(_GitHubRepos2['default'], { username: username, repos: this.state.repos })
-	      ),
-	      _react2['default'].createElement(
-	        'div',
-	        { className: "col-md-4" },
-	        _react2['default'].createElement(_NotesNotes2['default'], { username: username, notes: this.state.notes, addNote: this.handleAddNote })
-	      )
-	    );
 	  }
-	});
+
+	  _createClass(Profile, [{
+	    key: 'init',
+	    value: function init() {
+	      var _this = this;
+
+	      this.ref = base.bindToState(this.context.router.getCurrentParams().username, {
+	        context: this,
+	        state: 'notes',
+	        asArray: true
+	      });
+
+	      _utilsHelpers2['default'].getUserData(this.context.router.getCurrentParams().username).then(function (userData) {
+	        _this.setState({
+	          bio: userData.bio,
+	          repos: userData.repos
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.init();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      base.removeBinding(this.ref);
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      base.removeBinding(this.ref);
+	    }
+	  }, {
+	    key: 'handleAddNote',
+	    value: function handleAddNote(newNote) {
+	      base.post(this.context.router.getCurrentParams().username, {
+	        data: this.state.notes.concat([newNote])
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var username = this.context.router.getCurrentParams().username;
+	      return _react2['default'].createElement(
+	        'div',
+	        { className: "row" },
+	        _react2['default'].createElement(
+	          'div',
+	          { className: "col-md-4" },
+	          _react2['default'].createElement(_GitHubUserProfile2['default'], { bio: this.state.bio })
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { className: "col-md-4" },
+	          _react2['default'].createElement(_GitHubRepos2['default'], { username: username, repos: this.state.repos })
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { className: "col-md-4" },
+	          _react2['default'].createElement(_NotesNotes2['default'], { username: username, notes: this.state.notes, addNote: this.handleAddNote.bind(this) })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Profile;
+	})(_react2['default'].Component);
+
+	Profile.contextTypes = {
+	  router: _react2['default'].PropTypes.func.isRequired
+	};
 
 	exports['default'] = Profile;
 	module.exports = exports['default'];
 
 /***/ },
 /* 201 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _NotesList = __webpack_require__(202);
-
-	var _NotesList2 = _interopRequireDefault(_NotesList);
-
-	var _AddNote = __webpack_require__(203);
-
-	var _AddNote2 = _interopRequireDefault(_AddNote);
-
-	var Notes = (function (_React$Component) {
-	  _inherits(Notes, _React$Component);
-
-	  function Notes() {
-	    _classCallCheck(this, Notes);
-
-	    _get(Object.getPrototypeOf(Notes.prototype), 'constructor', this).apply(this, arguments);
-	  }
-
-	  _createClass(Notes, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2['default'].createElement(
-	        'div',
-	        null,
-	        _react2['default'].createElement(
-	          'h3',
-	          null,
-	          ' Notes for: ',
-	          this.props.username,
-	          ' '
-	        ),
-	        _react2['default'].createElement(_AddNote2['default'], { username: this.props.username, addNote: this.props.addNote }),
-	        _react2['default'].createElement(_NotesList2['default'], { notes: this.props.notes })
-	      );
-	    }
-	  }]);
-
-	  return Notes;
-	})(_react2['default'].Component);
-
-	Notes.propTypes = {
-	  username: _react2['default'].PropTypes.string.isRequired,
-	  notes: _react2['default'].PropTypes.array.isRequired,
-	  addNote: _react2['default'].PropTypes.func.isRequired
-	};
-
-	exports['default'] = Notes;
-	module.exports = exports['default'];
-
-/***/ },
-/* 202 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var NotesList = (function (_React$Component) {
-	  _inherits(NotesList, _React$Component);
-
-	  function NotesList() {
-	    _classCallCheck(this, NotesList);
-
-	    _get(Object.getPrototypeOf(NotesList.prototype), 'constructor', this).apply(this, arguments);
-	  }
-
-	  _createClass(NotesList, [{
-	    key: 'render',
-	    value: function render() {
-	      var notes = this.props.notes.map(function (note, index) {
-	        return _react2['default'].createElement(
-	          'li',
-	          { className: 'list-group-item', key: index },
-	          ' ',
-	          note,
-	          ' '
-	        );
-	      });
-	      return _react2['default'].createElement(
-	        'ul',
-	        { className: 'list-group' },
-	        notes
-	      );
-	    }
-	  }]);
-
-	  return NotesList;
-	})(_react2['default'].Component);
-
-	exports['default'] = NotesList;
-	module.exports = exports['default'];
-
-/***/ },
-/* 203 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var AddNote = (function (_React$Component) {
-	  _inherits(AddNote, _React$Component);
-
-	  function AddNote() {
-	    _classCallCheck(this, AddNote);
-
-	    _get(Object.getPrototypeOf(AddNote.prototype), 'constructor', this).apply(this, arguments);
-	  }
-
-	  _createClass(AddNote, [{
-	    key: 'handleSubmit',
-	    value: function handleSubmit() {
-	      var newNote = this.refs.note.getDOMNode().value;
-	      this.refs.note.getDOMNode().value = '';
-	      this.props.addNote(newNote);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2['default'].createElement(
-	        'div',
-	        { className: "input-group" },
-	        _react2['default'].createElement('input', { type: "text", className: "form-control", ref: "note", placeholder: "Add New Note" }),
-	        _react2['default'].createElement(
-	          'span',
-	          { className: "input-group-btn" },
-	          _react2['default'].createElement(
-	            'button',
-	            { className: "btn btn-default", type: "button", onClick: this.handleSubmit.bind(this) },
-	            'Submit'
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return AddNote;
-	})(_react2['default'].Component);
-
-	AddNote.propTypes = {
-	  username: _react2['default'].PropTypes.string.isRequired,
-	  addNote: _react2['default'].PropTypes.func.isRequired
-	};
-
-	exports['default'] = AddNote;
-	module.exports = exports['default'];
-
-/***/ },
-/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24206,7 +24042,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 205 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24289,6 +24125,208 @@
 
 	exports["default"] = Repos;
 	module.exports = exports["default"];
+
+/***/ },
+/* 203 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _NotesList = __webpack_require__(204);
+
+	var _NotesList2 = _interopRequireDefault(_NotesList);
+
+	var _AddNote = __webpack_require__(205);
+
+	var _AddNote2 = _interopRequireDefault(_AddNote);
+
+	var Notes = (function (_React$Component) {
+	  _inherits(Notes, _React$Component);
+
+	  function Notes() {
+	    _classCallCheck(this, Notes);
+
+	    _get(Object.getPrototypeOf(Notes.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  _createClass(Notes, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2['default'].createElement(
+	        'div',
+	        null,
+	        _react2['default'].createElement(
+	          'h3',
+	          null,
+	          ' Notes for: ',
+	          this.props.username,
+	          ' '
+	        ),
+	        _react2['default'].createElement(_AddNote2['default'], { username: this.props.username, addNote: this.props.addNote }),
+	        _react2['default'].createElement(_NotesList2['default'], { notes: this.props.notes })
+	      );
+	    }
+	  }]);
+
+	  return Notes;
+	})(_react2['default'].Component);
+
+	Notes.propTypes = {
+	  username: _react2['default'].PropTypes.string.isRequired,
+	  notes: _react2['default'].PropTypes.array.isRequired,
+	  addNote: _react2['default'].PropTypes.func.isRequired
+	};
+
+	exports['default'] = Notes;
+	module.exports = exports['default'];
+
+/***/ },
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var NotesList = (function (_React$Component) {
+	  _inherits(NotesList, _React$Component);
+
+	  function NotesList() {
+	    _classCallCheck(this, NotesList);
+
+	    _get(Object.getPrototypeOf(NotesList.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  _createClass(NotesList, [{
+	    key: 'render',
+	    value: function render() {
+	      var notes = this.props.notes.map(function (note, index) {
+	        return _react2['default'].createElement(
+	          'li',
+	          { className: 'list-group-item', key: index },
+	          ' ',
+	          note,
+	          ' '
+	        );
+	      });
+	      return _react2['default'].createElement(
+	        'ul',
+	        { className: 'list-group' },
+	        notes
+	      );
+	    }
+	  }]);
+
+	  return NotesList;
+	})(_react2['default'].Component);
+
+	exports['default'] = NotesList;
+	module.exports = exports['default'];
+
+/***/ },
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var AddNote = (function (_React$Component) {
+	  _inherits(AddNote, _React$Component);
+
+	  function AddNote() {
+	    _classCallCheck(this, AddNote);
+
+	    _get(Object.getPrototypeOf(AddNote.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  _createClass(AddNote, [{
+	    key: 'handleSubmit',
+	    value: function handleSubmit() {
+	      var newNote = this.refs.note.getDOMNode().value;
+	      this.refs.note.getDOMNode().value = '';
+	      this.props.addNote(newNote);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2['default'].createElement(
+	        'div',
+	        { className: "input-group" },
+	        _react2['default'].createElement('input', { type: "text", className: "form-control", ref: "note", placeholder: "Add New Note" }),
+	        _react2['default'].createElement(
+	          'span',
+	          { className: "input-group-btn" },
+	          _react2['default'].createElement(
+	            'button',
+	            { className: "btn btn-default", type: "button", onClick: this.handleSubmit.bind(this) },
+	            'Submit'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return AddNote;
+	})(_react2['default'].Component);
+
+	AddNote.propTypes = {
+	  username: _react2['default'].PropTypes.string.isRequired,
+	  addNote: _react2['default'].PropTypes.func.isRequired
+	};
+
+	exports['default'] = AddNote;
+	module.exports = exports['default'];
 
 /***/ },
 /* 206 */
@@ -26585,372 +26623,399 @@
 /* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	 * ReactFire is an open-source JavaScript library that allows you to add a
-	 * realtime data source to your React apps by providing and easy way to let
-	 * Firebase populate the state of React components.
-	 *
-	 * ReactFire 0.5.0
-	 * https://github.com/firebase/reactfire/
-	 * License: MIT
-	 */
-	/* eslint "strict": [2, "function"] */
-	(function(root, factory) {
-	  'use strict';
-
-	  /* istanbul ignore next */
-	  if (true) {
-	    // AMD
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
-	      return (root.ReactFireMixin = factory());
-	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	  } else if (typeof exports === 'object') {
-	    // CommonJS
-	    module.exports = factory();
-	  } else {
-	    // Global variables
-	    root.ReactFireMixin = factory();
-	  }
-	}(this, function() {
-	  'use strict';
-
-	  /*************/
-	  /*  HELPERS  */
-	  /*************/
-	  /**
-	   * Returns the index of the key in the list. If an item with the key is not in the list, -1 is
-	   * returned.
-	   *
-	   * @param {Array<any>} list A list of items.
-	   * @param {string} key The key for which to search.
-	   * @return {number} The index of the item which has the provided key or -1 if no items have the
-	   * provided key.
-	   */
-	  function _indexForKey(list, key) {
-	    for (var i = 0, length = list.length; i < length; ++i) {
-	      if (list[i]['.key'] === key) {
-	        return i;
-	      }
-	    }
-
-	    /* istanbul ignore next */
-	    return -1;
-	  }
-
-	  /**
-	   * Throws a formatted error message.
-	   *
-	   * @param {string} message The error message to throw.
-	   */
-	  function _throwError(message) {
-	    throw new Error('ReactFire: ' + message);
-	  }
-
-	  /**
-	   * Validates the name of the variable which is being bound.
-	   *
-	   * @param {string} bindVar The variable which is being bound.
-	   */
-	  function _validateBindVar(bindVar) {
-	    var errorMessage;
-
-	    if (typeof bindVar !== 'string') {
-	      errorMessage = 'Bind variable must be a string. Got: ' + bindVar;
-	    } else if (bindVar.length === 0) {
-	      errorMessage = 'Bind variable must be a non-empty string. Got: ""';
-	    } else if (bindVar.length > 768) {
-	      // Firebase can only stored child paths up to 768 characters
-	      errorMessage = 'Bind variable is too long to be stored in Firebase. Got: ' + bindVar;
-	    } else if (/[\[\].#$\/\u0000-\u001F\u007F]/.test(bindVar)) {
-	      // Firebase does not allow node keys to contain the following characters
-	      errorMessage = 'Bind variable cannot contain any of the following characters: . # $ ] [ /. Got: ' + bindVar;
-	    }
-
-	    if (typeof errorMessage !== 'undefined') {
-	      _throwError(errorMessage);
-	    }
-	  }
-
-	  /**
-	   * Creates a new record given a key-value pair.
-	   *
-	   * @param {string} key The new record's key.
-	   * @param {any} value The new record's value.
-	   * @return {Object} The new record.
-	   */
-	  function _createRecord(key, value) {
-	    var record = {};
-	    if (typeof value === 'object' && value !== null) {
-	      record = value;
-	    } else {
-	      record['.value'] = value;
-	    }
-	    record['.key'] = key;
-
-	    return record;
-	  }
+	module.exports = __webpack_require__(228);
 
 
-	  /******************************/
-	  /*  BIND AS OBJECT LISTENERS  */
-	  /******************************/
-	  /**
-	   * 'value' listener which updates the value of the bound state variable.
-	   *
-	   * @param {string} bindVar The state variable to which the data is being bound.
-	   * @param {Firebase.DataSnapshot} snapshot A snapshot of the data being bound.
-	   */
-	  function _objectValue(bindVar, snapshot) {
-	    var key = snapshot.key();
-	    var value = snapshot.val();
 
-	    this.data[bindVar] = _createRecord(key, value);
+/***/ },
+/* 228 */
+/***/ function(module, exports, __webpack_require__) {
 
-	    this.setState(this.data);
-	  }
+	(function webpackUniversalModuleDefinition(root, factory) {
+		if(true)
+			module.exports = factory(__webpack_require__(206));
+		else if(typeof define === 'function' && define.amd)
+			define(["firebase"], factory);
+		else {
+			var a = typeof exports === 'object' ? factory(require("firebase")) : factory(root["Firebase"]);
+			for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+		}
+	})(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
+	return /******/ (function(modules) { // webpackBootstrap
+	/******/ 	// The module cache
+	/******/ 	var installedModules = {};
 
+	/******/ 	// The require function
+	/******/ 	function __webpack_require__(moduleId) {
 
-	  /*****************************/
-	  /*  BIND AS ARRAY LISTENERS  */
-	  /*****************************/
-	  /**
-	   * 'child_added' listener which adds a new record to the bound array.
-	   *
-	   * @param {string} bindVar The state variable to which the data is being bound.
-	   * @param {Firebase.DataSnapshot} snapshot A snapshot of the data being bound.
-	   * @param {string|null} previousChildKey The key of the child after which the provided snapshot
-	   * is positioned; null if the provided snapshot is in the first position.
-	   */
-	  function _arrayChildAdded(bindVar, snapshot, previousChildKey) {
-	    var key = snapshot.key();
-	    var value = snapshot.val();
-	    var array = this.data[bindVar];
+	/******/ 		// Check if module is in cache
+	/******/ 		if(installedModules[moduleId])
+	/******/ 			return installedModules[moduleId].exports;
 
-	    // Determine where to insert the new record
-	    var insertionIndex;
-	    if (previousChildKey === null) {
-	      insertionIndex = 0;
-	    } else {
-	      var previousChildIndex = _indexForKey(array, previousChildKey);
-	      insertionIndex = previousChildIndex + 1;
-	    }
+	/******/ 		// Create a new module (and put it into the cache)
+	/******/ 		var module = installedModules[moduleId] = {
+	/******/ 			exports: {},
+	/******/ 			id: moduleId,
+	/******/ 			loaded: false
+	/******/ 		};
 
-	    // Add the new record to the array
-	    array.splice(insertionIndex, 0, _createRecord(key, value));
+	/******/ 		// Execute the module function
+	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-	    // Update state
-	    this.setState(this.data);
-	  }
+	/******/ 		// Flag the module as loaded
+	/******/ 		module.loaded = true;
 
-	  /**
-	   * 'child_removed' listener which removes a record from the bound array.
-	   *
-	   * @param {string} bindVar The state variable to which the data is bound.
-	   * @param {Firebase.DataSnapshot} snapshot A snapshot of the bound data.
-	   */
-	  function _arrayChildRemoved(bindVar, snapshot) {
-	    var array = this.data[bindVar];
-
-	    // Look up the record's index in the array
-	    var index = _indexForKey(array, snapshot.key());
-
-	    // Splice out the record from the array
-	    array.splice(index, 1);
-
-	    // Update state
-	    this.setState(this.data);
-	  }
-
-	  /**
-	   * 'child_changed' listener which updates a record's value in the bound array.
-	   *
-	   * @param {string} bindVar The state variable to which the data is bound.
-	   * @param {Firebase.DataSnapshot} snapshot A snapshot of the data to bind.
-	   */
-	  function _arrayChildChanged(bindVar, snapshot) {
-	    var key = snapshot.key();
-	    var value = snapshot.val();
-	    var array = this.data[bindVar];
-
-	    // Look up the record's index in the array
-	    var index = _indexForKey(array, key);
-
-	    // Update the record's value in the array
-	    array[index] = _createRecord(key, value);
-
-	    // Update state
-	    this.setState(this.data);
-	  }
-
-	  /**
-	   * 'child_moved' listener which updates a record's position in the bound array.
-	   *
-	   * @param {string} bindVar The state variable to which the data is bound.
-	   * @param {Firebase.DataSnapshot} snapshot A snapshot of the bound data.
-	   * @param {string|null} previousChildKey The key of the child after which the provided snapshot
-	   * is positioned; null if the provided snapshot is in the first position.
-	   */
-	  function _arrayChildMoved(bindVar, snapshot, previousChildKey) {
-	    var key = snapshot.key();
-	    var array = this.data[bindVar];
-
-	    // Look up the record's index in the array
-	    var currentIndex = _indexForKey(array, key);
-
-	    // Splice out the record from the array
-	    var record = array.splice(currentIndex, 1)[0];
-
-	    // Determine where to re-insert the record
-	    var insertionIndex;
-	    if (previousChildKey === null) {
-	      insertionIndex = 0;
-	    } else {
-	      var previousChildIndex = _indexForKey(array, previousChildKey);
-	      insertionIndex = previousChildIndex + 1;
-	    }
-
-	    // Re-insert the record into the array
-	    array.splice(insertionIndex, 0, record);
-
-	    // Update state
-	    this.setState(this.data);
-	  }
+	/******/ 		// Return the exports of the module
+	/******/ 		return module.exports;
+	/******/ 	}
 
 
-	  /*************/
-	  /*  BINDING  */
-	  /*************/
-	  /**
-	   * Creates a binding between Firebase and the inputted bind variable as either an array or
-	   * an object.
-	   *
-	   * @param {Firebase} firebaseRef The Firebase ref whose data to bind.
-	   * @param {string} bindVar The state variable to which to bind the data.
-	   * @param {function} cancelCallback The Firebase reference's cancel callback.
-	   * @param {boolean} bindAsArray Whether or not to bind as an array or object.
-	   */
-	  function _bind(firebaseRef, bindVar, cancelCallback, bindAsArray) {
-	    if (Object.prototype.toString.call(firebaseRef) !== '[object Object]') {
-	      _throwError('Invalid Firebase reference');
-	    }
+	/******/ 	// expose the modules object (__webpack_modules__)
+	/******/ 	__webpack_require__.m = modules;
 
-	    _validateBindVar(bindVar);
+	/******/ 	// expose the module cache
+	/******/ 	__webpack_require__.c = installedModules;
 
-	    if (typeof this.firebaseRefs[bindVar] !== 'undefined') {
-	      _throwError('this.state.' + bindVar + ' is already bound to a Firebase reference');
-	    }
+	/******/ 	// __webpack_public_path__
+	/******/ 	__webpack_require__.p = "";
 
-	    // Keep track of the Firebase reference we are setting up listeners on
-	    this.firebaseRefs[bindVar] = firebaseRef.ref();
+	/******/ 	// Load entry module and return exports
+	/******/ 	return __webpack_require__(0);
+	/******/ })
+	/************************************************************************/
+	/******/ ([
+	/* 0 */
+	/***/ function(module, exports, __webpack_require__) {
 
-	    if (bindAsArray) {
-	      // Set initial state to an empty array
-	      this.data[bindVar] = [];
-	      this.setState(this.data);
+		'use strict';
 
-	      // Add listeners for all 'child_*' events
-	      this.firebaseListeners[bindVar] = {
-	        child_added: firebaseRef.on('child_added', _arrayChildAdded.bind(this, bindVar), cancelCallback),
-	        child_removed: firebaseRef.on('child_removed', _arrayChildRemoved.bind(this, bindVar), cancelCallback),
-	        child_changed: firebaseRef.on('child_changed', _arrayChildChanged.bind(this, bindVar), cancelCallback),
-	        child_moved: firebaseRef.on('child_moved', _arrayChildMoved.bind(this, bindVar), cancelCallback)
-	      };
-	    } else {
-	      // Add listener for 'value' event
-	      this.firebaseListeners[bindVar] = {
-	        value: firebaseRef.on('value', _objectValue.bind(this, bindVar), cancelCallback)
-	      };
-	    }
-	  }
+		function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+		module.exports = (function () {
+		  var Firebase = __webpack_require__(1);
 
-	  var ReactFireMixin = {
-	    /********************/
-	    /*  MIXIN LIFETIME  */
-	    /********************/
-	    /**
-	     * Initializes the Firebase refs and listeners arrays.
-	     **/
-	    componentWillMount: function() {
-	      this.data = {};
-	      this.firebaseRefs = {};
-	      this.firebaseListeners = {};
-	    },
+		  var baseUrl = '';
+		  var rebase;
+		  var firebaseRefs = {};
+		  var firebaseListeners = {};
 
-	    /**
-	     * Unbinds any remaining Firebase listeners.
-	     */
-	    componentWillUnmount: function() {
-	      for (var bindVar in this.firebaseRefs) {
-	        /* istanbul ignore else */
-	        if (this.firebaseRefs.hasOwnProperty(bindVar)) {
-	          this.unbind(bindVar);
-	        }
-	      }
-	    },
+		  var optionValidators = {
+		    notObject: function notObject(options) {
+		      if (!_isObject(options)) {
+		        _throwError('The options argument must be an object. Instead, got ' + options, 'INVALID_OPTIONS');
+		      }
+		    },
+		    context: function context(options) {
+		      this.notObject(options);
+		      if (!options.context || !_isObject(options.context)) {
+		        this.makeError('context', 'object', options.context);
+		      }
+		    },
+		    state: function state(options) {
+		      this.notObject(options);
+		      if (!options.state || typeof options.state !== 'string') {
+		        this.makeError('state', 'string', options.state);
+		      }
+		    },
+		    then: function then(options) {
+		      this.notObject(options);
+		      if (typeof options.then === 'undefined' || typeof options.then !== 'function') {
+		        this.makeError('then', 'function', options.then);
+		      }
+		    },
+		    data: function data(options) {
+		      this.notObject(options);
+		      if (typeof options.data === 'undefined') {
+		        this.makeError('data', 'ANY', options.data);
+		      }
+		    },
+		    query: function query(options) {
+		      this.notObject(options);
+		      var validQueries = ['limitToFirst', 'limitToLast', 'orderByChild', 'orderByValue', 'orderByKey', 'orderByPriority', 'startAt', 'endAt', 'equalTo'];
+		      var queries = options.queries;
+		      for (var key in queries) {
+		        if (queries.hasOwnProperty(key) && validQueries.indexOf(key) === -1) {
+		          _throwError('The query field must contain valid Firebase queries.  Expected one of [' + validQueries.join(', ') + ']. Instead, got ' + key, 'INVALID_OPTIONS');
+		        }
+		      }
+		    },
+		    makeError: function makeError(prop, type, actual) {
+		      _throwError('The options argument must contain a ' + prop + ' property of type ' + type + '. Instead, got ' + actual, 'INVALID_OPTIONS');
+		    }
+		  };
 
+		  function _toArray(obj) {
+		    var arr = [];
+		    for (var key in obj) {
+		      if (obj.hasOwnProperty(key)) {
+		        if (_isObject(obj[key])) {
+		          obj[key].key = key;
+		        }
+		        arr.push(obj[key]);
+		      }
+		    }
+		    return arr;
+		  };
 
-	    /*************/
-	    /*  BINDING  */
-	    /*************/
-	    /**
-	     * Creates a binding between Firebase and the inputted bind variable as an array.
-	     *
-	     * @param {Firebase} firebaseRef The Firebase ref whose data to bind.
-	     * @param {string} bindVar The state variable to which to bind the data.
-	     * @param {function} cancelCallback The Firebase reference's cancel callback.
-	     */
-	    bindAsArray: function(firebaseRef, bindVar, cancelCallback) {
-	      var bindPartial = _bind.bind(this);
-	      bindPartial(firebaseRef, bindVar, cancelCallback, /* bindAsArray */ true);
-	    },
+		  function _isObject(obj) {
+		    return Object.prototype.toString.call(obj) === '[object Object]' ? true : false;
+		  };
 
-	    /**
-	     * Creates a binding between Firebase and the inputted bind variable as an object.
-	     *
-	     * @param {Firebase} firebaseRef The Firebase ref whose data to bind.
-	     * @param {string} bindVar The state variable to which to bind the data.
-	     * @param {function} cancelCallback The Firebase reference's cancel callback.
-	     */
-	    bindAsObject: function(firebaseRef, bindVar, cancelCallback) {
-	      var bindPartial = _bind.bind(this);
-	      bindPartial(firebaseRef, bindVar, cancelCallback, /* bindAsArray */ false);
-	    },
+		  function _throwError(msg, code) {
+		    var err = new Error('REBASE: ' + msg);
+		    err.code = code;
+		    throw err;
+		  };
 
-	    /**
-	     * Removes the binding between Firebase and the inputted bind variable.
-	     *
-	     * @param {string} bindVar The state variable to which the data is bound.
-	     * @param {function} callback Called when the data is unbound and the state has been updated.
-	     */
-	    unbind: function(bindVar, callback) {
-	      _validateBindVar(bindVar);
+		  function _validateBaseURL(url) {
+		    var defaultError = 'Rebase.createClass failed.';
+		    var errorMsg;
+		    if (typeof url !== 'string') {
+		      errorMsg = defaultError + ' URL must be a string.';
+		    } else if (!url || arguments.length > 1) {
+		      errorMsg = defaultError + ' Was called with more or less than 1 argument. Expects 1.';
+		    } else if (url.length === '') {
+		      errorMsg = defaultError + ' URL cannot be an empty string.';
+		    } else if (url.indexOf('.firebaseio.com') === -1) {
+		      errorMsg = defaultError + ' URL must be in the format of https://<YOUR FIREBASE>.firebaseio.com. Instead, got ' + url + '.';
+		    }
 
-	      if (typeof this.firebaseRefs[bindVar] === 'undefined') {
-	        _throwError('this.state.' + bindVar + ' is not bound to a Firebase reference');
-	      }
+		    if (typeof errorMsg !== 'undefined') {
+		      _throwError(errorMsg, 'INVALID_URL');
+		    }
+		  };
 
-	      // Turn off all Firebase listeners
-	      for (var event in this.firebaseListeners[bindVar]) {
-	        /* istanbul ignore else */
-	        if (this.firebaseListeners[bindVar].hasOwnProperty(event)) {
-	          var offListener = this.firebaseListeners[bindVar][event];
-	          this.firebaseRefs[bindVar].off(event, offListener);
-	        }
-	      }
-	      this.firebaseRefs[bindVar] = undefined;
-	      this.firebaseListeners[bindVar] = undefined;
+		  function _validateEndpoint(endpoint) {
+		    var defaultError = 'The Firebase endpoint you are trying to listen to';
+		    var errorMsg;
+		    if (typeof endpoint !== 'string') {
+		      errorMsg = defaultError + ' must be a string. Instead, got ' + endpoint;
+		    } else if (endpoint.length === 0) {
+		      errorMsg = defaultError + ' must be a non-empty string. Instead, got ' + endpoint;
+		    } else if (endpoint.length > 768) {
+		      errorMsg = defaultError + ' is too long to be stored in Firebase. It be less than 768 characters.';
+		    } else if (/^$|[\[\]\.\#\$]/.test(endpoint)) {
+		      errorMsg = defaultError + ' in invalid. Paths must be non-empty strings and can\'t contain ".", "#", "$", "[", or "]".';
+		    }
 
-	      // Update state
-	      var newState = {};
-	      newState[bindVar] = undefined;
-	      this.setState(newState, callback);
-	    }
-	  };
+		    if (typeof errorMsg !== 'undefined') {
+		      _throwError(errorMsg, 'INVALID_ENDPOINT');
+		    }
+		  };
 
-	  return ReactFireMixin;
-	}));
+		  function _setState(newState) {
+		    this.setState(newState);
+		  };
 
+		  function _returnRef(endpoint, method) {
+		    return { endpoint: endpoint, method: method };
+		  };
+
+		  function _fetch(endpoint, options) {
+		    _validateEndpoint(endpoint);
+		    optionValidators.context(options);
+		    optionValidators.then(options);
+		    options.queries && optionValidators.query(options);
+		    var ref = new Firebase(baseUrl + '/' + endpoint);
+		    ref = _addQueries(ref, options.queries);
+		    ref.once('value', function (snapshot) {
+		      var data = options.asArray === true ? _toArray(snapshot.val()) : snapshot.val();
+		      options.then.call(options.context, data);
+		    });
+		  };
+
+		  function _firebaseRefsMixin(endpoint, invoker, ref) {
+		    if (!_isObject(firebaseRefs[endpoint])) {
+		      firebaseRefs[endpoint] = _defineProperty({}, invoker, ref.ref());
+		      firebaseListeners[endpoint] = {};
+		    } else if (!firebaseRefs[endpoint][invoker]) {
+		      firebaseRefs[endpoint][invoker] = ref.ref();
+		    } else {
+		      _throwError('Endpoint (' + endpoint + ') already has listener ' + invoker, 'INVALID_ENDPOINT');
+		    }
+		  };
+
+		  function _addListener(endpoint, invoker, options, ref) {
+		    ref = _addQueries(ref, options.queries);
+		    firebaseListeners[endpoint][invoker] = ref.on('value', function (snapshot) {
+		      var data = snapshot.val();
+		      data = data === null ? (options.asArray === true ? [] : {}) : data;
+		      if (invoker === 'listenTo') {
+		        options.asArray === true ? options.then.call(options.context, _toArray(data)) : options.then.call(options.context, data);
+		      } else if (invoker === 'syncState') {
+		        data = options.asArray === true ? _toArray(data) : data;
+		        options.reactSetState.call(options.context, _defineProperty({}, options.state, data));
+		      } else if (invoker === 'bindToState') {
+		        var newState = {};
+		        options.asArray === true ? newState[options.state] = _toArray(data) : newState[options.state] = data;
+		        _setState.call(options.context, newState);
+		      }
+		    });
+		  };
+
+		  function _bind(endpoint, options, invoker) {
+		    _validateEndpoint(endpoint);
+		    optionValidators.context(options);
+		    invoker === 'listenTo' && optionValidators.then(options);
+		    invoker === 'bindToState' && optionValidators.state(options);
+		    options.queries && optionValidators.query(options);
+		    var ref = new Firebase(baseUrl + '/' + endpoint);
+		    _firebaseRefsMixin(endpoint, invoker, ref);
+		    _addListener(endpoint, invoker, options, ref);
+		    return _returnRef(endpoint, invoker);
+		  };
+
+		  function _updateSyncState(ref, data, key) {
+		    if (_isObject(data)) {
+		      for (var prop in data) {
+		        _updateSyncState(ref.child(prop), data[prop], prop);
+		      }
+		    } else {
+		      ref.set(data);
+		    }
+		  };
+
+		  function _sync(endpoint, options) {
+		    _validateEndpoint(endpoint);
+		    optionValidators.context(options);
+		    optionValidators.state(options);
+		    options.queries && optionValidators.query(options);
+		    if (_sync.called !== true) {
+		      _sync.reactSetState = options.context.setState;
+		      _sync.called = true;
+		    } else {
+		      options.context.setState = _sync.reactSetState;
+		    }
+		    options.reactSetState = options.context.setState;
+		    var ref = new Firebase(baseUrl + '/' + endpoint);
+		    _firebaseRefsMixin(endpoint, 'syncState', ref);
+		    _addListener(endpoint, 'syncState', options, ref);
+		    options.context.setState = function (data) {
+		      for (var key in data) {
+		        if (data.hasOwnProperty(key)) {
+		          if (key === options.state) {
+		            _updateSyncState.call(this, ref, data[key], key);
+		          } else {
+		            options.reactSetState.call(options.context, data);
+		          }
+		        }
+		      }
+		    };
+		    return _returnRef(endpoint, 'syncState');
+		  };
+
+		  function _post(endpoint, options) {
+		    _validateEndpoint(endpoint);
+		    optionValidators.data(options);
+		    var ref = new Firebase(baseUrl + '/' + endpoint);
+		    if (options.then) {
+		      ref.set(options.data, options.then);
+		    } else {
+		      ref.set(options.data);
+		    }
+		  };
+
+		  function _addQueries(ref, queries) {
+		    var needArgs = {
+		      limitToFirst: true,
+		      limitToLast: true,
+		      orderByChild: true,
+		      startAt: true,
+		      endAt: true,
+		      equalTo: true
+		    };
+		    for (var key in queries) {
+		      if (queries.hasOwnProperty(key)) {
+		        if (needArgs[key]) {
+		          ref = ref[key](queries[key]);
+		        } else {
+		          ref = ref[key]();
+		        }
+		      }
+		    }
+		    return ref;
+		  };
+
+		  function _removeBinding(refObj) {
+		    _validateEndpoint(refObj.endpoint);
+		    if (typeof firebaseRefs[refObj.endpoint][refObj.method] === 'undefined') {
+		      var errorMsg = 'Unexpected value for endpoint. ' + refObj.endpoint + ' was either never bound or has already been unbound.';
+		      _throwError(errorMsg, 'UNBOUND_ENDPOINT_VARIABLE');
+		    }
+		    firebaseRefs[refObj.endpoint][refObj.method].off('value', firebaseListeners[refObj.endpoint][refObj.method]);
+		    delete firebaseRefs[refObj.endpoint][refObj.method];
+		    delete firebaseListeners[refObj.endpoint][refObj.method];
+		  };
+
+		  function _reset() {
+		    baseUrl = '';
+		    rebase = undefined;
+		    for (var key in firebaseRefs) {
+		      if (firebaseRefs.hasOwnProperty(key)) {
+		        for (var prop in firebaseRefs[key]) {
+		          if (firebaseRefs[key].hasOwnProperty(prop)) {
+		            firebaseRefs[key][prop].off('value', firebaseListeners[key][prop]);
+		            delete firebaseRefs[key][prop];
+		            delete firebaseListeners[key][prop];
+		          }
+		        }
+		      }
+		    }
+		    firebaseRefs = {};
+		    firebaseListeners = {};
+		  };
+
+		  function init() {
+		    return {
+		      listenTo: function listenTo(endpoint, options) {
+		        return _bind(endpoint, options, 'listenTo');
+		      },
+		      bindToState: function bindToState(endpoint, options) {
+		        return _bind(endpoint, options, 'bindToState');
+		      },
+		      syncState: function syncState(endpoint, options) {
+		        return _sync(endpoint, options);
+		      },
+		      fetch: function fetch(endpoint, options) {
+		        _fetch(endpoint, options);
+		      },
+		      post: function post(endpoint, options) {
+		        _post(endpoint, options);
+		      },
+		      removeBinding: function removeBinding(endpoint) {
+		        _removeBinding(endpoint, true);
+		      },
+		      reset: function reset() {
+		        _reset();
+		      }
+		    };
+		  };
+
+		  return {
+		    createClass: function createClass(url) {
+		      if (rebase) {
+		        return rebase;
+		      }
+
+		      _validateBaseURL(url);
+		      baseUrl = url;
+		      rebase = init();
+
+		      return rebase;
+		    }
+		  };
+		})();
+
+	/***/ },
+	/* 1 */
+	/***/ function(module, exports) {
+
+		module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
+
+	/***/ }
+	/******/ ])
+	});
+	;
 
 /***/ }
 /******/ ]);
