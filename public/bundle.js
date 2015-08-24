@@ -24642,19 +24642,27 @@
 
 	'use strict';
 
-	var axios = __webpack_require__(209);
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _axios = __webpack_require__(209);
+
+	var _axios2 = _interopRequireDefault(_axios);
 
 	function getGithubRepos(username) {
-	  return axios.get('https://api.github.com/users/' + username + '/repos');
+	  return _axios2['default'].get('https://api.github.com/users/' + username + '/repos');
 	}
 
 	function getGithubUser(username) {
-	  return axios.get('https://api.github.com/users/' + username);
+	  return _axios2['default'].get('https://api.github.com/users/' + username);
 	}
 
 	var helpers = {
 	  getUserData: function getUserData(username) {
-	    return axios.all([getGithubRepos(username), getGithubUser(username)]).then(function (dataArray) {
+	    return _axios2['default'].all([getGithubRepos(username), getGithubUser(username)]).then(function (dataArray) {
 	      return {
 	        repos: dataArray[0].data,
 	        bio: dataArray[1].data
@@ -24663,7 +24671,8 @@
 	  }
 	};
 
-	module.exports = helpers;
+	exports['default'] = helpers;
+	module.exports = exports['default'];
 
 /***/ },
 /* 209 */
