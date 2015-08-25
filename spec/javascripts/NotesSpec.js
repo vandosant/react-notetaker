@@ -10,7 +10,7 @@ describe('Notes', () => {
   });
 
   it('should display the correct user name', () => {
-    component = React.findDOMNode(component)
+    component = React.findDOMNode(component);
     expect(component.textContent).toMatch(/Ray Kurzweil/);
   });
 });
