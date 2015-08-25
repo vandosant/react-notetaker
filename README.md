@@ -3,8 +3,9 @@
 setup:  
 npm install
 webpack -w
+open index.html in a browser
 
 specs:  
-karma start karma.conf.js
+npm test
 
 [Reference](http://nicolasgallagher.com/how-to-test-react-components-karma-webpack/)
