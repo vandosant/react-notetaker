@@ -44,6 +44,7 @@ class Profile extends React.Component {
 
   componentWillReceiveProps() {
     base.removeBinding(this.ref);
+    this.init();
   }
 
   handleAddNote(newNote) {

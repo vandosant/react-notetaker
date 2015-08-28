@@ -23882,6 +23882,7 @@
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps() {
 	      base.removeBinding(this.ref);
+	      this.init();
 	    }
 	  }, {
 	    key: 'handleAddNote',
