@@ -1,19 +1,19 @@
-import React from 'react';
+var React = require('react');
+var Router = require('react-router');
 
-class SearchGithub extends React.Component {
-  handleSubmit() {
-    var router = this.context.router;
+var SearchGithub = React.createClass({
+  mixins: [Router.Navigation],
+  handleSubmit: function () {
     var username = this.refs.username.getDOMNode().value;
     this.refs.username.getDOMNode().value = '';
-    router.transitionTo('profile', {username: username});
-  }
-
-  render() {
+    this.transitionTo('profile', {username: username});
+  },
+  render: function () {
     return (
       <div className="col-sm-12">
-        <form onSubmit={this.handleSubmit.bind(this)}>
+        <form onSubmit={this.handleSubmit}>
           <div className="form-group col-sm-7">
-            <input type="text" className="form-control" ref="username"/>
+            <input type="text" className="form-control" ref="username" />
           </div>
           <div className="form-group col-sm-5">
             <button type="submit" className="btn btn-block btn-primary">Search GitHub</button>
@@ -23,10 +23,6 @@ class SearchGithub extends React.Component {
       </div>
     )
   }
-}
+});
 
-SearchGithub.contextTypes = {
-  router: React.PropTypes.func.isRequired
-};
-
-export default SearchGithub;
+module.exports = SearchGithub;
